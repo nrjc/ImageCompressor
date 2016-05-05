@@ -1,0 +1,2 @@
+load lighthouse;
+colormap(map);
