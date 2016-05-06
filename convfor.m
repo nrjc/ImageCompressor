@@ -5,7 +5,7 @@ cosvec=halfcos(i);
 Xf=[];
 Xf = conv2se(cosvec,cosvec,imageinput);
 imwrite(Xf,map,['lowpass-' num2str(i) '.png']);
-E=sum(imageinput(:).^2);
+E=sum(Xf(:).^2);
 S=sprintf('Energy content of low pass %d is %e',i,E);
 disp(S)
 Xfnew=Xf-imageinput;
