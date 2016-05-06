@@ -1,8 +1,18 @@
-function Xf = convfor(imageinput)
+function convfor(imageinput,map)
 [m,n]=size(imageinput);
-cosvec=halfcos(15);
-Xf2=[];
-Xf2 = conv2se(1,cosvec,imageinput);
-Xf=conv2se(cosvec,1,Xf2);
+for i=3:2:23
+cosvec=halfcos(i);
+Xf=[];
+Xf = conv2se(cosvec,cosvec,imageinput);
+imwrite(Xf,map,['lowpass-' num2str(i) '.png']);
+E=sum(imageinput(:).^2);
+S=sprintf('Energy content of low pass %d is %e',i,E);
+disp(S)
+Xfnew=Xf-imageinput;
+imwrite((Xfnew),map,['highpass-' num2str(i) '.png']);
+E=sum(Xfnew(:).^2);
+S=sprintf('Energy content of high pass %d is %e',i,E);
+disp(S)
 
+end
 return;
