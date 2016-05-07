@@ -1,8 +1,8 @@
-function goldensearch[]
+function x1=goldensearch(imagein,pylevel,h)
 a=1;                            % start of interval
-b=20;                            % end of interval
-epsilon=0.0001;               % accuracy value
-iter= 50;                       % maximum number of iterations
+b=100;                            % end of interval
+epsilon=0.000001;               % accuracy value
+iter= 1000;                       % maximum number of iterations
 tau=double((sqrt(5)-1)/2);      % golden proportion coefficient, around 0.618
 k=0;                            % number of iterations
 
@@ -10,8 +10,8 @@ k=0;                            % number of iterations
 x1=a+(1-tau)*(b-a);             % computing x values
 x2=a+tau*(b-a);
 
-f_x1=f(x1);                     % computing values in x points
-f_x2=f(x2);
+f_x1=f(imagein,x1,pylevel,h);                     % computing values in x points
+f_x2=f(imagein,x2,pylevel,h);
 
 
 while ((abs(b-a)>epsilon) && (k<iter))
@@ -21,19 +21,26 @@ while ((abs(b-a)>epsilon) && (k<iter))
         x2=x1;
         x1=a+(1-tau)*(b-a);
         
-        f_x1=f(x1);
-        f_x2=f(x2);
+        f_x1=f(imagein,x1,pylevel,h); 
+        f_x2=f(imagein,x2,pylevel,h);
         
     else
         a=x1;
         x1=x2;
         x2=a+tau*(b-a);
         
-        f_x1=f(x1);
-        f_x2=f(x2);
+        f_x1=f(imagein,x1,pylevel,h); 
+        f_x2=f(imagein,x2,pylevel,h);
         
     end
     
     k=k+1;
 end
+end
+
+function error=f(imagein,quantsteps,pylevel,h)
+    [error,reconstructed]=quantcountent(imagein,quantsteps,pylevel,h);
+    image=quantise(imagein,17);
+    errorimage=std(imagein(:)-image(:));
+    error=(error-errorimage)^2;
 end
