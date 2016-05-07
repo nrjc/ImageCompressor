@@ -1,8 +1,15 @@
 function saveanddisplay2(imagein,quantsteps,totalpylevels,h)
 errormatrix=[];
 map = evalin('base', 'map');
-
-
+Cellsin = pyenc(zeros(256,256),8,h);
+for i=1:8
+    invsqrte(i)=(midandreconstruct(Cellsin,(i-1)))^-0.5;
+end
+for j=1:totalpylevels
+    j
+    [x1,error]=goldensearch2(imagein,invsqrte,j,h)
+    %[error(j),reconstructed{j}]=quantcountent2(imagein,invsqrte*10^3,j,h);
+end
 % ensure we have the right input parameters
 % if (nargin==1)
 %   map = [0:255]'*ones(1,3)*(1/255);
@@ -18,8 +25,8 @@ map = evalin('base', 'map');
 % T.Properties.VariableNames = {'Pyramidlevels' 'StdError'};
 % writetable(T,'errors.txt');
 end
-
-function vector=generateandoptimizequantsteps(imagein,h,pylevels){
-
-
-}
+ 
+% function vector=generateandoptimizequantsteps(imagein,h,pylevels){
+% 
+% 
+% }

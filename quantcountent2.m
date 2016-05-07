@@ -6,12 +6,12 @@ function [error,reconstructed]=quantcountent2(imagein,quantsteps,pylevel,h)
 %errors, and a cell consisting of the reconstructed images. They are output
 %in the order from 1-pylevel.
 % The difference between quantcontent and quantcountent2 is the fact that
-% quantstep is a vector. 
+% quantsteps is a vector. 
 imagevec=pyenc(imagein,pylevel,h);
 entout=imagevec';
 quantimage={};
 for i=1:(pylevel+1)
-    quantimage{i} = quantise(entout{i,1},quantsteps{i});
+    quantimage{i} = quantise(entout{i,1},quantsteps(i));
     entout{i,2}=bpp(quantimage{i});    
     entout{i,3}=bpp(entout{i,1});
     [m,n]=size(entout{i,1});
