@@ -3,7 +3,7 @@ function [x1,f_x1]=goldensearch2(imagein,pyenccell,quantsteps,refstepsize)
 % minimize the MSE between the reconstructed image at step 17 and the
 % pyramidal image. 
 a=1;                            % start of interval
-b=3000;                            % end of interval
+b=200;                            % end of interval
 epsilon=0.000001;               % accuracy value
 iter= 1000;                       % maximum number of iterations
 tau=double((sqrt(5)-1)/2);      % golden proportion coefficient, around 0.618
