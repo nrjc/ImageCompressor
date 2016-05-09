@@ -3,13 +3,14 @@ errormatrix=[];
 map = evalin('base', 'map');
 Cellsin = pyenc(zeros(256,256),8,h);
 for i=1:8
+%     invsqrte(i)=midandreconstruct(Cellsin,(i-1));
     invsqrte(i)=(midandreconstruct(Cellsin,(i-1)))^-0.5;
 end
 for j=1:totalpylevels
-    j
-    [x1,error]=goldensearch2(imagein,invsqrte,j,h)
+    [x1(j),error(j)]=goldensearch2(imagein,flip(invsqrte),j,h);
     %[error(j),reconstructed{j}]=quantcountent2(imagein,invsqrte*10^3,j,h);
 end
+plot(1:totalpylevels,error)
 % ensure we have the right input parameters
 % if (nargin==1)
 %   map = [0:255]'*ones(1,3)*(1/255);
