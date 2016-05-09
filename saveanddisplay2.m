@@ -1,16 +1,20 @@
 function saveanddisplay2(imagein,quantsteps,totalpylevels,h)
-errormatrix=[];
 map = evalin('base', 'map');
 Cellsin = pyenc(zeros(256,256),8,h);
 for i=1:8
-%     invsqrte(i)=midandreconstruct(Cellsin,(i-1));
+%     invsqrte(i)=1;
     invsqrte(i)=(midandreconstruct(Cellsin,(i-1)))^-0.5;
 end
-for j=1:totalpylevels
-    [x1(j),error(j)]=goldensearch2(imagein,flip(invsqrte),j,h);
-    %[error(j),reconstructed{j}]=quantcountent2(imagein,invsqrte*10^3,j,h);
+for level=1:totalpylevels
+   pycell = pyenc(imagein,level,h);
+   [v(level),funcv(level)]=goldensearch2(imagein,pycell,invsqrte,17);
+   compression(level)=calculatecompression(imagein,pycell,v(level)*invsqrte,17);
+   reconstimage2=quantiseall(pycell,v(level)*invsqrte);
+   reconstimage2=pydec(reconstimage2,h);
+   reconstimage2=reconstimage2{length(reconstimage2)};
+   rmserror(level)=std(imagein(:)-reconstimage2(:));
 end
-plot(1:totalpylevels,error)
+plot(1:totalpylevels,funcv);
 % ensure we have the right input parameters
 % if (nargin==1)
 %   map = [0:255]'*ones(1,3)*(1/255);

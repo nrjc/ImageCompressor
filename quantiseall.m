@@ -1,5 +1,6 @@
-function imageout=quantiseall(imagein,step)
-    for i=1:length(imagein)
-       imageout{i}=quantise(imagein{i},step); 
+function imageout=quantiseall(imagein,stepvector)
+newlength=length(imagein);
+    for i=1:newlength
+       imageout{i}=quantise(imagein{i},stepvector(i)); 
     end
 end

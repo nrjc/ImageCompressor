@@ -1,4 +1,4 @@
-function [x1,f_x1]=goldensearch2(imagein,quantsteps,pylevel,h)
+function [x1,f_x1]=goldensearch2(imagein,pyenccell,quantsteps,refstepsize)
 % x1=goldensearch(imagein,pylevel,h). Function performs a golden search to
 % minimize the MSE between the reconstructed image at step 17 and the
 % pyramidal image. 
@@ -13,8 +13,8 @@ k=0;                            % number of iterations
 x1=a+(1-tau)*(b-a);             % computing x values
 x2=a+tau*(b-a);
 
-f_x1=f(imagein,x1*quantsteps,pylevel,h);                     % computing values in x points
-f_x2=f(imagein,x2*quantsteps,pylevel,h);
+f_x1=calculatedeltarmserror(imagein,quantiseall(pyenccell,x1*quantsteps),refstepsize);                     % computing values in x points
+f_x2=calculatedeltarmserror(imagein,quantiseall(pyenccell,x2*quantsteps),refstepsize);
 
 
 while ((abs(b-a)>epsilon) && (k<iter))
@@ -24,16 +24,16 @@ while ((abs(b-a)>epsilon) && (k<iter))
         x2=x1;
         x1=a+(1-tau)*(b-a);
         
-        f_x1=f(imagein,x1*quantsteps,pylevel,h); 
-        f_x2=f(imagein,x2*quantsteps,pylevel,h);
+        f_x1=calculatedeltarmserror(imagein,quantiseall(pyenccell,x1*quantsteps),refstepsize);                     % computing values in x points
+        f_x2=calculatedeltarmserror(imagein,quantiseall(pyenccell,x2*quantsteps),refstepsize);
         
     else
         a=x1;
         x1=x2;
         x2=a+tau*(b-a);
         
-        f_x1=f(imagein,x1*quantsteps,pylevel,h); 
-        f_x2=f(imagein,x2*quantsteps,pylevel,h);
+        f_x1=calculatedeltarmserror(imagein,quantiseall(pyenccell,x1*quantsteps),refstepsize);                     % computing values in x points
+        f_x2=calculatedeltarmserror(imagein,quantiseall(pyenccell,x2*quantsteps),refstepsize);
         
     end
     
@@ -41,9 +41,3 @@ while ((abs(b-a)>epsilon) && (k<iter))
 end
 end
 
-function error=f(imagein,quantsteps,pylevel,h)
-    [error,reconstructed]=quantcountent2(imagein,quantsteps,pylevel,h);
-    image=quantise(imagein,17);
-    errorimage=std(imagein(:)-image(:));
-    error=(error-errorimage)^2;
-end

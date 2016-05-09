@@ -1,5 +1,5 @@
 function pyout=pydec(C,h)
-%X=pyenc[imageinput,levels,h]
+%X=pydec(C,h)
 %Takes C as an input a cell: Y0,Y1,...,Yn,X(n+1), returns the set of low pass
 %images Z as a cell in the following format:(Zn,...,Z0)
     [m,n]=size(C);
