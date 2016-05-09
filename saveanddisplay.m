@@ -9,11 +9,11 @@ end
 
 for i=1:totalpylevels
     [error,reconstructed]=quantcountent(imagein,quantsteps,i,h);
-    imwrite(reconstructed-128*round(min(reconstructed(:))/128),map,['reconstructedimage-' num2str(i) '.png']);
+%     imwrite(reconstructed-128*round(min(reconstructed(:))/128),map,['reconstructedimage-' num2str(i) '.png']);
     errormatrix=[errormatrix;error];
 end
 levels=(1:totalpylevels)';
 T=table(levels,errormatrix);
 T.Properties.VariableNames = {'Pyramidlevels' 'StdError'};
-% writetable(T,'errors.txt');
+writetable(T,'./LaplacianPyramid/errors.txt');
 end
