@@ -7,14 +7,14 @@ end
 i=1;
 for n=[4 8 16]
     C=dct_ii(n);
-    [x1(i),f1(i)]=goldensearch4(imagein,1.2,7, refstepsize);
+    [x1(i),f1(i)]=goldensearch4(imagein,sqrt(2),7, refstepsize);
     [M N]=size(C);
-    cell=LBT(imagein,N,1.2);
+    cell=LBT(imagein,N,sqrt(2));
     cell=dctenc(cell,C);
     dctcell=quantisealldct(cell,x1(i));
     level2decode=dctdec(dctcell,C);
-    level1decode=ILBT(level2decode,N,1.2);
-  % imwrite(level1decode-128*round(min(level1decode(:))/128),map,['length-' num2str(n) '.png']);
+    level1decode=ILBT(level2decode,N,sqrt(2));
+    imwrite(level1decode-128*round(min(level1decode(:))/128),map,['length-' num2str(n) '.png']);
     comp(i)=calculatecompression2(imagein,cell,x1(i),refstepsize);
     i=i+1;
 end
