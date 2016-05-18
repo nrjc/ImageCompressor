@@ -1,5 +1,4 @@
-function rmserror=calculatedeltarmserror2(originalimage,dctcell,refstepsize)
-    C = evalin('base', 'C');
+function rmserror=calculatedeltarmserror2(originalimage,dctcell,refstepsize,C)
     reconstimage=dctdec(dctcell,C);
     rmserror1=std(originalimage(:)-reconstimage(:));
     reconstimage2=quantise(originalimage,refstepsize);

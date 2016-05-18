@@ -14,11 +14,11 @@ for slevel=[1:0.1:2 sqrt(2)]
     level2decode=dctdec(dctcell,C);
     level1decode=ILBT(level2decode,N,slevel);
 %   imwrite(level1decode-128*round(min(level1decode(:))/128),map,['slevel-' num2str(slevel) '.png']);
-    comp(i)=calculatecompression2(imagein,cell,x1(i),refstepsize);
+    comp(i)=calculatecompression2(imagein,cell,x1(i),16,refstepsize);
     i=i+1;
 end
 plot([1:0.1:2 sqrt(2)],f1);
 
-
+    
 end
  

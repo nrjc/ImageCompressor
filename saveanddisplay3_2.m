@@ -1,4 +1,4 @@
-function saveanddisplay3_2()
+function saveanddisplay3_2(inputimage)
 map = evalin('base', 'map');
 % ensure we have the right input parameters
 if (nargin==1)
@@ -6,14 +6,15 @@ if (nargin==1)
 end
 i=1;
 
-for s=1:0.1:2
-    [Pf Pr]=pot_ii(8,s);
-    bases = [zeros(1,8);Pf';zeros(1,8)];
-    output=(255*bases(:)*bases(:)');
+for N=[4 8 16]
+    C=dct_ii(N);
+    cell=dctenc(inputimage,C);
+    [x(i) f(i)]=goldensearch3(inputimage,cell,17,17,C);
+    compressionratio(i) = calculatecompression2(inputimage,cell,x(i),8,17);
     %imwrite(output-128*round(min(output(:))/128),map,['s' num2str(s) 'bases.png']);
     i=i+1;
 end
-
+plot(1:3,f);
 
 end
  

@@ -2,8 +2,8 @@ function [x1,f_x1]=goldensearch5(originalimage,dwtstep,refstepsize)
 % x1=goldensearch(imagein,pylevel,h). Function performs a golden search to
 % minimize the MSE between the reconstructed image at step 17 and the
 % pyramidal image. 
-a=100;                            % start of interval
-b=10000;                            % end of interval
+a=1;                            % start of interval
+b=35;                            % end of interval
 epsilon=0.000001;               % accuracy value
 iter= 1000;                       % maximum number of iterations
 tau=double((sqrt(5)-1)/2);      % golden proportion coefficient, around 0.618

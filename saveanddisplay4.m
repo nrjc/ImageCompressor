@@ -15,7 +15,7 @@ for n=[4 8 16]
     level2decode=dctdec(dctcell,C);
     level1decode=ILBT(level2decode,N,sqrt(2));
     imwrite(level1decode-128*round(min(level1decode(:))/128),map,['length-' num2str(n) '.png']);
-    comp(i)=calculatecompression2(imagein,cell,x1(i),refstepsize);
+    comp(i)=calculatecompression2(imagein,cell,x1(i),16,refstepsize);
     i=i+1;
 end
 plot([4 8 16],f1);

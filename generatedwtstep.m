@@ -3,7 +3,7 @@ function dwtstep=generatedwtstep(levels)
     m=256;n=256;
     empty = zeros(m,n);
     temp=empty;
-    for i=1:(levels-1)
+    for i=1:(levels)
         temp(1*m/4,3*n/4)=impulsesize;
         recon=nlevidwt(temp,i);
         dwtstep(1,i)=1/sqrt(sum(recon(:).^2));
@@ -21,5 +21,5 @@ function dwtstep=generatedwtstep(levels)
     end
     temp(m/2,n/2)=impulsesize;
     recon=nlevidwt(temp,levels);
-    dwtstep(1,levels)=1/sqrt(sum(recon(:).^2));
+    dwtstep(1,levels+1)=1/sqrt(sum(recon(:).^2));
 end
