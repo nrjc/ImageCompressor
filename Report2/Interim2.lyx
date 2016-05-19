@@ -1,0 +1,1949 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage{calc} 
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+\noindent
+SF2: Second Interim Report
+\end_layout
+
+\begin_layout Author
+\noindent
+Nicholas Capel (nrjc2)
+\end_layout
+
+\begin_layout Section
+\noindent
+Introduction
+\end_layout
+
+\begin_layout Standard
+\noindent
+In this report, I will investigate the results from the DCT, LBT and DWT
+ energy compaction methods and compare them to the methods discussed in
+ the first interim report.
+ 
+\end_layout
+
+\begin_layout Section
+\noindent
+Discrete Cosine Transform (DCT)
+\end_layout
+
+\begin_layout Standard
+The Discrete Cosine Transform is a method of decomposing a signal into its
+ elementary frequency components.
+ In image processing, we deal with 2D signal blocks, and hence, the 2D DCT
+ is constructed by 
+\begin_inset Formula $Y=(C*(C*X)')'$
+\end_inset
+
+, where Y describes the transformed coefficients.
+\end_layout
+
+\begin_layout Standard
+Perhaps this can be better illustrated by an image comprising the 2D basis
+ functions (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "filtbase"
+
+\end_inset
+
+).
+ The patterns describe the horizontal and vertical spatial filters that
+ will be used to construct the filtered image, and the DCT essentially deconstru
+cts an image into its constituent frequency basis components that are described
+ by these filters.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Observing sub-images obtained from the DCT (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "dctsubim"
+
+\end_inset
+
+), it is observed that, as the image frequencies increase, the energies
+ decrease.
+ This is expected, as natural images have much higher energies at low frequencie
+s than high frequencies.
+ Furthermore, moving right and downwards in the sub-images corresponds to
+ higher spatial frequencies in the x and y-components of the image respectively,
+ which agree well with the earlier visualisation of the 2D basis functions.
+\end_layout
+
+\begin_layout Standard
+In order to compress the image, we now quantise the sub-images.
+ In this experiment, we do so at step size 17.
+ When reconstructing the original image via direct quantisation, we get
+ a RMS error of 
+\series bold
+4.8612
+\series default
+.
+
+\series bold
+ 
+\series default
+When reconstructing from the DCT, we get a RMS error of 
+\series bold
+3.7568
+\series default
+.
+ The RMS error from the DCT is lower than that of direct quantisation, which
+ is unusual, but not unexpected.
+ The DCT is analogous to a Fourier transformation, with high frequency component
+s discarded.
+ However, these high frequency components are not exceptionally important,
+ and contribute little to the overall image.
+ On the other hand, in the direct quantization, we force a rounding of all
+ image values to the nearest step, and this can lead to greater loss of
+ information.
+ 
+\end_layout
+
+\begin_layout Standard
+Quantising the sub-images separately and together makes a huge difference
+ to the entropy, and hence, the compression ratio that we can achieve.
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Entropies of sub-images quantised differently
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+quantised separately (dctbpp)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+quantised together (dct)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9.7468\times10^{4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.0963\times10^{5}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The entropy of each image quantised separately is lower than that of the
+ whole image quantised together.
+ This makes sense because entropy is a measure of the number of possible
+ states.
+ When quantising the entire image at once, the number of possible states
+ will definitely be higher than if each sub-image were to be quantised separatel
+y.
+\end_layout
+
+\begin_layout Standard
+In the limit where you use quantise each pixel separately
+\series bold
+,
+\series default
+ the total entropy goes to zero.
+ This is because the entropy of each individual pixel now becomes 
+\begin_inset Formula $\log(1)=0$
+\end_inset
+
+.
+ This is not a realistic result.
+ It does not make sense to encode each pixel separately, as we cannot exploit
+ the correlations between pixels.
+\end_layout
+
+\begin_layout Standard
+As compared to the original image, the DCT-compressed image has 
+\series bold
+\emph on
+ringing artifacts
+\series default
+\emph default
+ that are introduced at the edges of sharp discontinuities.
+ In the lighthouse image, this is most evident around the edges of the lighthous
+e and the roof (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "dct8"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "dct16"
+
+\end_inset
+
+).
+ These artifacts are a consequence of the DCT decomposing the image using
+ cosine bases.
+ On quantisation, the high frequencies components lose resolution, leading
+ to ringing artifacts.
+ Furthermore, upon closer inspection, the reconstructed image is split into
+ multiple, identical squares, with discontinuities along the edges of those
+ squares.
+ These are known as 
+\series bold
+\emph on
+blocking artifacts
+\series default
+\emph default
+.
+ The sizes of those squares are exactly the same as the size of the DCT
+ matrix used to filter the image, as the DCT is conducted block by block.
+ In contrast, the directly quantised image has blocky artifacts introduced
+ where originally smooth transitions are now turned into sudden jumps (Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "originalimagequant"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+An experiment was conducted, summarized in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "dctadj"
+
+\end_inset
+
+, where the size of the DCT base is modified while keeping the RMS error
+ constant.
+ The total entropy was measured from the function 
+\series bold
+dctbpp
+\series default
+, while keeping N constant at 8.
+ This is because in real coding, the number of sub-images that can be quantised
+ is fixed.
+ It appears that as the size of the DCT basis matrix increases, the ringing
+ artifacts become more noticeable (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "dct8"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "dct16"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+I conclude that a DCT of length 
+\series bold
+8
+\series default
+ gives the overall best image, with a compression ratio of 
+\series bold
+3.1345
+\series default
+.
+ It offers a good balance between compression ratio and the image quality.
+ However, as most of the artifacts are created in the presence of sharp
+ discontinuities, the number of these sharp discontinuities and their locations
+ in the image might affect this choice of DCT length.
+ 
+\end_layout
+
+\begin_layout Section
+\noindent
+Lapped Bi-orthogonal Transform (LBT)
+\end_layout
+
+\begin_layout Standard
+The Lapped Bi-orthogonal Transform (LBT) aims to remove the block discontinuitie
+s by generating smaller non-overlapping blocks.
+ In this experiment, a LBT is implemented by using a POT (Photo Overlap
+ Transform) combined with a DCT.
+ In essence, an image is compressed by first prefiltering it with the POT
+ to introduce overlaps between the blocks, then a DCT transform is applied
+ on this result.
+ As a consequence of this prefiltering, the major benefit is a suppression
+ of the blocking artifacts in the quantised image.
+ 
+\end_layout
+
+\begin_layout Standard
+The scaling factor, 
+\series bold
+s
+\series default
+, weighs the relative contributions between the POT filter, 
+\series bold
+Pf
+\series default
+, and the inverse POT filter, 
+\series bold
+Pr
+\series default
+.
+ As the value of 
+\series bold
+s
+\series default
+ increases, we can see that the amount of overlap between the bases increases
+ (Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sbase1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sbase2"
+
+\end_inset
+
+).
+ This effect is also evident in the pre-DCT filtered images (Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sl1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sl2"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+An experiment was conducted to implement LBT with POT scaling factors between
+ 1 to 2, while matching rms errors to the directly quantised image at step
+ size 17.
+ A graph of compression ratios was plotted against 
+\series bold
+s
+\series default
+ values (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "compression ratio vs s"
+
+\end_inset
+
+).
+ The optimal 
+\series bold
+s
+\series default
+ value appears to be exactly 
+\begin_inset Formula $\sqrt{2}$
+\end_inset
+
+, which gives a compression ratio (measured with N=16) of 
+\series bold
+3.898
+\series default
+.
+ As the scaling factor increases, it seems that the reconstructed image
+ becomes 
+\series bold
+\emph on
+grainier
+\series default
+\emph default
+.
+ At a high scaling factor, there is greater overlap between adjacent blocks.
+ Hence, quantisation errors are more evenly spread throughout the image,
+ leading to a more uniform grainy texture as compared to a lower factor,
+ where the artifacts are more localised (Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lhsl1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lhsl2"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+Using a scaling factor of 
+\begin_inset Formula $\sqrt{2}$
+\end_inset
+
+, an experiment was conducted to investigate the performance of the LBT
+ with different block sizes (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lbtcomp1"
+
+\end_inset
+
+), once again keeping the MSE equal to a direct quantisation at step size
+ 17.
+ It was discovered that a length 
+\series bold
+8 
+\series default
+LBT block is ideal, yielding a compression ratio of 
+\series bold
+3.898
+\series default
+.
+\end_layout
+
+\begin_layout Section
+\noindent
+Discrete Wavelet Transform (DWT)
+\end_layout
+
+\begin_layout Standard
+The Discrete Wavelet Transform is essentially an attempt to combine the
+ best features of DCT and the Laplacian Pyramid.
+ By applying a filter, we decompose an image into the coefficients of its
+ associated wavelets, and by repeating this sub-sampling and filtering process,
+ we create a binary filter tree.
+ In this report, the Legall 5 and 3 tap pair are chosen as filters.
+ This process is known as the DWT.
+ 
+\end_layout
+
+\begin_layout Standard
+Applying the wavelet filter once in the x-direction, we obtain, 
+\series bold
+U
+\series default
+ and
+\series bold
+ V
+\series default
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "UV"
+
+\end_inset
+
+), it is observed that 
+\series bold
+U
+\series default
+ (
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $8.231\times10^{7}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+) has a much higher energy than 
+\series bold
+V
+\series default
+ (
+\begin_inset Formula $3.5018\times10^{6}$
+\end_inset
+
+).
+ Applying this filter again in the y-direction, we have completed one layer
+ of the binary tree.
+ An image of the result can found in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "4image"
+
+\end_inset
+
+
+\series bold
+.
+ UU
+\series default
+ displays a low pass filter, 
+\series bold
+VV
+\series default
+ displays a high pass filter.
+ 
+\series bold
+UV 
+\series default
+implements horizontal edge detection, while
+\series bold
+ VU
+\series default
+ implements vertical edge detection.
+ The reason why 
+\series bold
+UV
+\series default
+ and 
+\series bold
+VU
+\series default
+ implement edge detections is simple.
+ 
+\series bold
+UV 
+\series default
+selects for low-frequency components in the x-direction, but high frequency
+ components in the y-direction.
+ Hence leading to horizontal edges being highlighted in the filtered image.
+ 
+\series bold
+VU
+\series default
+ detects vertical edges for similar reasons.
+ 
+\end_layout
+
+\begin_layout Standard
+In general, the high pass images have a much lower energy than the low pass
+ images, and hence require a multiplication factor to display clearly.
+ Once again, this is an intrinsic property of natural images.
+ 
+\end_layout
+
+\begin_layout Standard
+An experiment was conducted to investigate the compression ratios of equal
+ MSE and equal step size schemes, and how they vary with the number of levels
+ of DWT (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cdwt"
+
+\end_inset
+
+).
+ It seems that as the number of levels increases, the equal MSE compression
+ ratios will increase, subject to diminishing returns.
+ At each level, the sub-image in the top left is split up into 
+\series bold
+UU
+\series default
+, 
+\series bold
+UV
+\series default
+, 
+\series bold
+VU
+\series default
+ and 
+\series bold
+VV
+\series default
+.
+ 
+\series bold
+UV
+\series default
+, 
+\series bold
+VU
+\series default
+ and 
+\series bold
+VV
+\series default
+ have significantly lower energies and entropies than the low-pass image
+ 
+\series bold
+UU
+\series default
+.
+ Hence, we can encode 
+\series bold
+UV
+\series default
+, 
+\series bold
+VU
+\series default
+ and 
+\series bold
+VV
+\series default
+ using fewer bits of information without significant loss.
+ By recursively repeating this process, we can further increase compression.
+ However, information is not infinitely compressible, so there exists an
+ upper bound that is approached asymptotically as the number of levels increase.
+ 
+\end_layout
+
+\begin_layout Standard
+Inspecting the equal MSE images from the DWT of both the lighthouse and
+ bridge (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lhemse6"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "bremse6"
+
+\end_inset
+
+), it is seen that as the levels in the pyramid vary, the visual quality
+ of the image does not change.
+ 
+\end_layout
+
+\begin_layout Standard
+However, this trend does not hold true in the constant step size case, where
+ a maximum compression ratio is reached at a level size of 
+\series bold
+2
+\series default
+.
+ This is because when a constant step size is used, we are using the same
+ number of bits to encode the high-pass and the low-pass images.
+ However, the low-pass image has a much higher energy and entropy than the
+ high-pass images.
+ Thus when we quantise all sub-images using the same step size, significant
+ detail is lost in the low-pass images when the binary tree is deep.
+ Hence beyond a certain binary tree depth, the compression ratios begin
+ falling again.
+ 
+\end_layout
+
+\begin_layout Standard
+Inspecting the constant step size images from the DWT of the bridge (Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "bridgec1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "bridgec6"
+
+\end_inset
+
+), it is seen that as the levels vary, the cloudy artifacts in the images
+ seem to become more diffuse.
+ The lighthouse images exhibit a similar trend, and thus for the sake of
+ brevity, will not be included in the report.
+ 
+\end_layout
+
+\begin_layout Standard
+In this section, experiments were done on two separate images, an image
+ of a lighthouse and an image of a bridge.
+ Universally, the image of the bridge is much harder to compress than the
+ image of the lighthouse.
+ This is because there are many more features / edges in the bridge image
+ than in the lighthouse image, and this is most pronounced in the emptiness
+ of the sky versus the foliage on the sides of the bridge.
+ In other words, the image of the bridge has more energy in its high spatial
+ frequencies than does the image of the lighthouse.
+ 
+\end_layout
+
+\begin_layout Section
+\noindent
+Comparison
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison between compression schemes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="7cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Optimal Compression Ratio
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Artifacts 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pyramid
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.549
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Loss of detail due to smoothing by 
+\series bold
+h 
+\series default
+filter.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DCT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.1345
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ringing introduced about edges.
+ Blocky artifacts observed because DCT is applied separately to each image
+ block.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LBT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.898
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Some grainy artifacts introduced by POT.
+ Ringing artifacts around sharp transitions still exist, as in DCT.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DWT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.092
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Grainy artifacts introduced.
+ Ringing artifacts around edges exist, but much less pronounced than DCT
+ / LBT.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "comparison"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The results of the experiments are summarized in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "comparison"
+
+\end_inset
+
+.
+ The optimal compression ratios shown are the best compression ratios for
+ any given input image and any given configuration, and thus represent the
+ best-case scenario of that compression algorithm.
+ It is seen that LBT exhibits the best compression ratios, and will thus
+ be investigated in greater detail in the next report.
+ DWT will be investigated as well, as although the compression ratios are
+ not as high as two other schemes - from a qualitative point of view, the
+ artifacts introduced using DWT are much less obvious and intrusive than
+ the artifacts introduced by any other compression algorithm investigated
+ in this report.
+ 
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+In this report, I have investigated the DCT, LBT and DWT, and compared their
+ performance to the Laplacian pyramid.
+ I have also identified further areas of investigation.
+ 
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+\noindent
+Appendix
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Discrete Cosine Transform Graphs and Images
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Filtered Bases for 
+\begin_inset Formula $8\times8$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename bases.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "filtbase"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DCT sub-images for lighthouse
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename Yrbase.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "dctsubim"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DCT-compressed image (N=8)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename DCTimg.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "dct8"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DCT-compressed image (N=16)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename DCT-compressed-C16.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "dct16"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Direct quantisation (step 17)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename originalimagequant.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "originalimagequant"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression Ratio vs DCT base size
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename dctadj.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "dctadj"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT Graphs and Images
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Filtered Bases with s=1.0
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename s1bases.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sbase1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Filtered bases with s=2.0
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename s2bases.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sbase2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prefiltered lighthouse with s=1.0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename s1pre.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sl1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prefiltered lighthouse with s=2.0
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename s2pre.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sl2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression ratio vs size of 
+\series bold
+s
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename slev.png
+	width 10cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "compression ratio vs s"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prefiltered lighthouse with s=1.0
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename slevel-1.0.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lhsl1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prefiltered lighthouse with s=2.0
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename slevel-2.0.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lhsl2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression Ratios vs Block Size
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename lbtcomp1.eps
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lbtcomp1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DWT Graphs and Images
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+[U V]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename UV.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "UV"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+[UU VU; UV VV]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename 4image.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "4image"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression Ratio vs DWT level
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename dwtcomp.eps
+	width 10cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "cdwt"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Lighthouse eMSE N=6
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename lighthouses6.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lhemse6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bridge eMSE N=6
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename bridges6.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "bremse6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bridge constant step N=1
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename bridgec1.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "bridgec1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bridge constant step N=6
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename bridgec6.png
+	width 4cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "bridgec6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
