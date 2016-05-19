@@ -1,4 +1,4 @@
-function x1=goldensearch(imagein,pylevel,h)
+function x1=goldensearch()
 % x1=goldensearch(imagein,pylevel,h). Function performs a golden search to
 % minimize the MSE between the reconstructed image at step 17 and the
 % pyramidal image. 
