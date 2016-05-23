@@ -1,6 +1,6 @@
-function rmserror=calculatedeltarmserror4(originalimage,dwtstep,refstepsize,rise)
+function rmserror=calculatedeltarmserror4(originalimage,dwtstep,refstepsize,ratio)
     [m n]=size(dwtstep);
-    [reconstimage,entropy]=quantdwt(originalimage,dwtstep,rise);
+    [reconstimage,entropy]=quantdwt(originalimage,dwtstep,ratio);
     reconstimage = nlevidwt(reconstimage,n);
     rmserror1=std(originalimage(:)-reconstimage(:));
     reconstimage2=quantise(originalimage,refstepsize);
