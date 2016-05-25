@@ -12,6 +12,8 @@ if nargin < 3,
 %     h2 = 1/8*[-1 2  6 2 -1];
   h1=[-1 2 6 2 -1]/8;
   h2=[-1 2 -1]/4;
+% h1=evalin('base','h1');
+% h2=evalin('base','h2');
 end
 
 [m,n] = size(X);

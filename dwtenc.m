@@ -48,9 +48,9 @@ end
  
 % DCT on input image X.
 fprintf(1, 'Forward %i x %i DCT\n', N, N);
-dwtstepm=ones(3,4);
+dwtstepm=generatedwtstep(3);
 
-[Y,dwtentk]=quantdwt(X,30*dwtstepm,1);% Quantise to integers.
+[Y,dwtentk]=quantdwt(X,qstep*dwtstepm,1);% Quantise to integers.
 fprintf(1, 'Quantising to step size of %i', qstep); 
 
 %Regroup
