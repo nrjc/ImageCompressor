@@ -10,6 +10,8 @@ function Y = idwt(X,g1,g2)
 if nargin < 3,
   g1=[1 2 1]/2;
   g2=[-1 -2 6 -2 -1]/4;
+  %     g1=1/4*[-1 -2 6 -2 -1]; For Inv-Legall
+%     g2=1/2*[1 2 1];
 end
 
 [m,n] = size(X);

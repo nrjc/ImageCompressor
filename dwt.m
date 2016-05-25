@@ -8,6 +8,8 @@ function Y = dwt(X,h1,h2)
 %  otherwise the LeGall filter pair are used.
 
 if nargin < 3,
+    %     h1 = 1/4*[-1 2 -1]; For Inv-Legall
+%     h2 = 1/8*[-1 2  6 2 -1];
   h1=[-1 2 6 2 -1]/8;
   h2=[-1 2 -1]/4;
 end

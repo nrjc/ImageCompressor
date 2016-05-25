@@ -2,7 +2,7 @@ function vlc = huffenc(rsa, ehuf)
 
 % HUFFENC Convert a run-length encoded stream to huffman coding
 %
-%  [vlc] = HUFFENC(rsa) Performs Huffman encoding on the run-length
+%  [vlc] = HUFFENC(rsa, ehuf) Performs Huffman encoding on the run-length
 %  information in rsa, as produced by RUNAMPL.
 %
 %  The codewords are variable length integers in vlc(:,1)

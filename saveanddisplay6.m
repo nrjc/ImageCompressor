@@ -19,16 +19,16 @@ i=1;
 %These results are a little suspicious, as they do not agree with the
 %original results
 i=1;
-for ratio=0.1:0.1:3
+
 %INVESTIGATE THE DWT
 %Golden Search to find the ideal rise size.
-    dwtstepm=generatedwtstep(6);
-    fun2=@(x)calculatedeltarmserror4(imagein,x*dwtstepm,17,ratio);
-    [idealstepdwt(i) f(i)]=fminbnd(fun2,100,30000);
-    [quantisedimage2,dwtentk]=quantdwt(imagein,idealstepdwt(i)*dwtstepm,ratio);
+    dwtstepm=generatedwtstep(4);
+    fun2=@(x)calculatedeltarmserror4(imagein,x*dwtstepm,17,1);
+    [idealstepdwt(i) f(i)]=fminbnd(fun2,1,100000);
+    [quantisedimage2,dwtentk]=quantdwt(imagein,idealstepdwt(i)*dwtstepm,1);
+    imageout = nlevidwt(quantisedimage2,5);
     compressionratio(i)=ein/sum(dwtentk(:));
-    i=i+1
-end
+
 
 end
  
