@@ -29,7 +29,7 @@ global huffhist  % Histogram of usage of Huffman codewords.
 error(nargchk(2, 6, nargin, 'struct'));
 if ((nargout~=1) && (nargout~=3)) error('Must have one or three output arguments'); end
 if (nargin<6)
-  dcbits = 8;
+  dcbits = 9;
   if (nargin<5)
     opthuff = false;
     if (nargin<4)
@@ -48,7 +48,7 @@ end
  
 % DCT on input image X.
 fprintf(1, 'Forward %i x %i DCT\n', N, N);
-dwtstepm=generatedwtstep(3);
+dwtstepm=generatedwtstep(4);
 
 [Y,dwtentk]=quantdwt(X,qstep*dwtstepm,1);% Quantise to integers.
 fprintf(1, 'Quantising to step size of %i', qstep); 

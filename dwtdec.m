@@ -26,7 +26,7 @@ if (nargin<9)
   H = 256;
   W = 256;
   if (nargin<7)
-    dcbits = 8;
+    dcbits = 9;
     if (nargin<6)
       opthuff = false;
       if (nargin<4)
@@ -128,6 +128,6 @@ Zi=quant2(Zq,qstep);
 Zi = dwtgroup(Zi,-3);
 
 fprintf(1, 'Inverse %i x %i DCT\n', N, N);
-Z=nlevidwt(Zi,4);
+Z=nlevidwt(Zi,5);
 
 return
