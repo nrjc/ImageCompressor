@@ -22,4 +22,5 @@ function dwtstep=generatedwtstep(levels)
     temp(m/2,n/2)=impulsesize;
     recon=nlevidwt(temp,levels);
     dwtstep(1,levels+1)=1/sqrt(sum(recon(:).^2));
+    dwtstep=dwtstep*sqrt(sum(recon(:).^2));
 end

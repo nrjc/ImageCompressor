@@ -26,7 +26,7 @@ if (nargin<9)
   H = 256;
   W = 256;
   if (nargin<7)
-    dcbits = 10;
+    dcbits = 8;
     if (nargin<6)
       opthuff = false;
       if (nargin<4)

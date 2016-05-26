@@ -19,7 +19,7 @@ function errorout = dwtnumbit(X, qstep, N, M, opthuff, dcbits)
 %  vlc is the variable length output code, where vlc(:,1) are the codes, and
 %  vlc(:,2) the number of corresponding valid bits, so that sum(vlc(:,2))
 %  gives the total number of bits in the image
-%  bits and huffval are optional outputs which return the Huffman encoding
+%  bits and huffval are optional o(sum(vlc(:,2))-50000utputs which return the Huffman encoding
 %  used in compression
 
 % This is global to avoid too much copying when updated by huffenc
@@ -30,7 +30,7 @@ global huffhist;
 error(nargchk(2, 6, nargin, 'struct'));
 if ((nargout~=1) && (nargout~=3)) error('Must have one or three output arguments'); end
 if (nargin<6)
-  dcbits = 10;
+  dcbits = 8;
   if (nargin<5)
     opthuff = false;
     if (nargin<4)
@@ -129,6 +129,6 @@ for r=0:M:(sy(1)-M),
 end
 fprintf(1,'Bits for coded image = %d\n', sum(vlc(:,2)))
 fprintf(1,'Bits for huffman table = %d\n', (16+max(size(dhuffval)))*8)
-errorout=(sum(vlc(:,2))-40960)^2;
+errorout=(sum(vlc(:,2))-50000)^2;
 
 return
