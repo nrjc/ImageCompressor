@@ -288,7 +288,7 @@ Zigzag encoding sequence
 \begin_layout Standard
 This is a reasonable scanning strategy because it exploits the structure
  of the post-DCT transformed image.
- As an example:
+ Take the lighthouse image, for example:
 \end_layout
 
 \begin_layout Standard
@@ -422,10 +422,26 @@ In this report, 3 separate schemes for measuring the quality of images were
 
 \begin_layout Enumerate
 Mean Square Error
+\begin_inset Formula 
+\begin{eqnarray*}
+MSE(x,y) & = & \frac{1}{N}\sum_{i=1}^{N}(x_{i}-y_{i})^{2}
+\end{eqnarray*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
 Peak Signal to Noise Ratio
+\begin_inset Formula 
+\begin{eqnarray*}
+PSNR & = & 20\log_{10}(MAX_{I})-10\log_{10}(MSE)
+\end{eqnarray*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -469,6 +485,14 @@ DWT-based methods
 \end_layout
 
 \begin_layout Standard
+DWT-based schemes were deemed worthy of greater investigation, as they have
+ rather high Compression Ratios.
+ Furthermore, at equivalent RMS error levels, the artifacts are much less
+ noticeable than any of the other schemes investigated.
+ 
+\end_layout
+
+\begin_layout Standard
 Inverse Legall 5/3 Wavelets
 \end_layout
 
@@ -499,6 +523,11 @@ LBT implementation with JPEG quantisation tables derived from experiments
 
 \begin_layout Standard
 Two-level LBT implementation
+\end_layout
+
+\begin_layout Standard
+Investigating the savings from using a custom Huffman table.
+ 
 \end_layout
 
 \begin_layout Section
