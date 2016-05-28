@@ -29,7 +29,7 @@ global huffhist  % Histogram of usage of Huffman codewords.
 error(nargchk(2, 6, nargin, 'struct'));
 if ((nargout~=1) && (nargout~=3)) error('Must have one or three output arguments'); end
 if (nargin<6)
-  dcbits = 10;
+  dcbits = 9;
   if (nargin<5)
     opthuff = false;
     if (nargin<4)
