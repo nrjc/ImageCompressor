@@ -26,7 +26,7 @@ if (nargin<9)
   H = 256;
   W = 256;
   if (nargin<7)
-    dcbits = 8;
+    dcbits = 10;
     if (nargin<6)
       opthuff = false;
       if (nargin<4)
@@ -124,7 +124,8 @@ for r=0:M:(H-M),
 end
 
 fprintf(1, 'Inverse quantising to step size of %i\n', qstep);
-Zi=quant2(Zq,qstep,qstep);
+Zi=dctquantise2(Zq,qstep);
+%Zi=quant2(Zq,qstep,qstep);%This is for normal one step quantisation
 
 fprintf(1, 'Inverse %i x %i DCT\n', N, N);
 C8=dct_ii(N);
