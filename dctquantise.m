@@ -5,7 +5,7 @@ function qimage=dctquantise(X,qstep)
     qimage=zeros(m,n);
     for j = 1:(m/8)
        for i=1:(n/8)
-           qimage(((j-1)*8+1):j*8,((i-1)*8+1):i*8)=indvq(X(((j-1)*8+1):j*8,((i-1)*8+1):i*8),Qtable);
+           qimage(((j-1)*8+1):j*8,((i-1)*8+1):i*8)=indvq(X(((j-1)*8+1):j*8,((i-1)*8+1):i*8),Qtable(j,i));
        end        
     end
 end
@@ -15,7 +15,7 @@ function image=indvq(X,Qtable)
     image=zeros(M,N);
     for i=1:M
         for j=1:N
-            image(i,j)=quant1(X(i,j),Qtable(i,j),Qtable(i,j));
+            image(i,j)=quant1(X(i,j),Qtable,Qtable);
         end
     end
 end
