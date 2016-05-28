@@ -28,7 +28,6 @@
 *.app
 
 #pictures
-*.png
 *.jpg
 
 #Temp Files
