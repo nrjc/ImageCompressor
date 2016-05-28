@@ -26,7 +26,7 @@ if (nargin<9)
   H = 256;
   W = 256;
   if (nargin<7)
-    dcbits = 8;
+    dcbits = 9;
     if (nargin<6)
       opthuff = false;
       if (nargin<4)
@@ -124,10 +124,15 @@ for r=0:M:(H-M),
 end
 
 fprintf(1, 'Inverse quantising to step size of %i\n', qstep);
-Zi=quant2(Zq,qstep,qstep);
+Zi=dctquantise2(Zq,qstep);
+%Zi=quant2(Zq,qstep,qstep);%This is for normal one step quantisation
 
 fprintf(1, 'Inverse %i x %i DCT\n', N, N);
 C8=dct_ii(N);
+[xsize,ysize]=size(Zi);
+%Inverting first DCT layer
+%Zi(1:xsize/8,1:ysize/8)=colxfm(colxfm(Zi(1:xsize/8,1:ysize/8)',C8')',C8');
+%Second DCT layer
 Zo=colxfm(colxfm(Zi',C8')',C8');
 Z=ILBT(Zo,8,sqrt(2));
 

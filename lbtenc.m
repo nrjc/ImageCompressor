@@ -1,6 +1,6 @@
 function [vlc bits huffval] = lbtenc(X, qstep, N, M, opthuff, dcbits)
     
-% JPEGENC Encode an image to a (simplified) JPEG bit stream
+% JPEGENC Encode an image to a (simplified) LBT bit stream
 %
 %  [vlc bits huffval] = jpegenc(X, qstep, N, M, opthuff, dcbits) Encodes the
 %  image in X to generate the variable length bit stream in vlc.
@@ -29,7 +29,7 @@ global huffhist  % Histogram of usage of Huffman codewords.
 error(nargchk(2, 6, nargin, 'struct'));
 if ((nargout~=1) && (nargout~=3)) error('Must have one or three output arguments'); end
 if (nargin<6)
-  dcbits = 8;
+  dcbits = 9;
   if (nargin<5)
     opthuff = false;
     if (nargin<4)
@@ -52,12 +52,17 @@ LBTim = LBT(X,8,sqrt(2));
 fprintf(1, 'Forward %i x %i DCT\n', N, N);
 C8=dct_ii(N);
 Y=colxfm(colxfm(LBTim,C8)',C8)'; 
+[xsize,ysize]=size(Y);
+%Second DCT layer
+%Y(1:xsize/8,1:ysize/8)=colxfm(colxfm(Y(1:xsize/8,1:ysize/8),C8)',C8)';
 
 %Apply LBT
 
 % Quantise to integers.
 fprintf(1, 'Quantising to step size of %i\n', qstep); 
-Yq=quant1(Y,qstep,qstep);
+Yq=dctquantise(Y,qstep);
+%Yq=quant1(Y,qstep,qstep); %This does normal quantisation, for comparison
+%sake
 
 % Generate zig-zag scan of AC coefs.
 scan = diagscan(M);
