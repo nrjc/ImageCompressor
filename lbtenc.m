@@ -52,6 +52,9 @@ LBTim = LBT(X,8,sqrt(2));
 fprintf(1, 'Forward %i x %i DCT\n', N, N);
 C8=dct_ii(N);
 Y=colxfm(colxfm(LBTim,C8)',C8)'; 
+[xsize,ysize]=size(Y);
+%Second DCT layer
+%Y(1:xsize/8,1:ysize/8)=colxfm(colxfm(Y(1:xsize/8,1:ysize/8),C8)',C8)';
 
 %Apply LBT
 
