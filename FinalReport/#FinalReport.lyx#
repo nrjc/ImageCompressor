@@ -1,0 +1,542 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+SF2: Final Report
+\end_layout
+
+\begin_layout Author
+Nicholas Capel (nrjc2)
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This report should be written to be read in conjunction with the two interim
+ reports produced earlier.
+ it should briefly describe the design processes which took place during
+ the investigation of centre-clipped quantisers and Huffman coding; and
+ then it should include a reasonably full description of the tests and reasoning
+ which led to the final design selection, and of the final assessment tests.
+ As before, you should emphasise any unexpected or subtle aspects of the
+ project and not dwell on the more obvious aspects.
+ 
+\end_layout
+
+\begin_layout Standard
+This report is worth 50 marks and must not contain more than 9 pages + 3
+ further pages for appendices.
+\end_layout
+
+\begin_layout Section
+Centre-Clipped quantisers
+\end_layout
+
+\begin_layout Standard
+It was found that a double-width centre step quantiser is an excellent compromis
+e, and works well on all the front-end systems tested.
+ 
+\end_layout
+
+\begin_layout Subsection
+DWT
+\end_layout
+
+\begin_layout Standard
+DWT was conducted on the lighthouse image at a pyramid level of 6, using
+ the 5/3 Legall Wavelet.
+ The RMS error was enforced to be equal to a direct quantisation at step
+ size 17, and the value of the rise size was varied.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression Ratio vs Step Size Ratio 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename quantLBT.eps
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The value of Compression Ratio is maximized when the rise size is 0.9 times
+ the step size.
+ 
+\end_layout
+
+\begin_layout Subsection
+LBT
+\end_layout
+
+\begin_layout Standard
+A LBT was conducted on the lighthouse image, using a POT coefficient of
+ 
+\begin_inset Formula $\sqrt{2}$
+\end_inset
+
+ and a block size of 8.
+ Once again, the RMS Error was enforced to be equal to a direct quantisation
+ at step size 17, and the value of the rise size was then varied.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression Ratio vs Step Size Ratio 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename quantDWT.eps
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Compression Ratio was measured at a block size of N=16.
+ The value of the Compression Ratio is maximized when the rise size is exactly
+ equal to the step size.
+ 
+\end_layout
+
+\begin_layout Section
+Huffman coding
+\end_layout
+
+\begin_layout Standard
+Previous were mainly concerned with reducing the entropy of natural images
+ using clever decomposition schemes.
+ However, after an image has been quantised, it is necessary to convert
+ the quantised image into a string of bits that can then be stored.
+ 
+\end_layout
+
+\begin_layout Standard
+In this report, the Huffman code is used for compression.
+ It is chosen for two reasons.
+ Firstly, it is simple to use, and secondly, it is an optimal binary prefix
+ code.
+ However, for larger images, an arithmetic code might be better.
+ As the Huffman code tree increases in depth, it quickly becomes extremely
+ complicated, and hence there is a computionally-bound upper limit on the
+ code length.
+ However, with an arithmetic code, an arbitrarily long code can be constructed
+ trivially, which might lead to better compression when applied to large
+ images.
+ However, this will not be implemented here.
+ 
+\end_layout
+
+\begin_layout Standard
+In the JPEG format implemented in the MATLAB code provided, the image is
+ scanned in a zigzag fashion as shown:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Zigzag encoding sequence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename zigzag.png
+	width 3cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a reasonable scanning strategy because it exploits the structure
+ of the post-DCT transformed image.
+ Take the lighthouse image, for example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DCT image
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Lighthouse post-DCT
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename postDCT.png
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Lighthouse post-DCT rearranged
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename /homes/nrjc2/Desktop/ImageCompressor/DCT/Yrbase.png
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At high quantisations step sizes, the high-pass images will all be supressed.
+ Hence, when encoding the image using the zig-zag sequence, there will be
+ extremely long runs of zeros along diagonals that correspond to the high-pass
+ images.
+ This can be exploited by the run-length-encoding scheme to increase the
+ compression.
+ 
+\end_layout
+
+\begin_layout Standard
+[POSSIBLY COME UP WITH BETTER SCHEME?]
+\end_layout
+
+\begin_layout Section
+Measures of Visual Appearance
+\end_layout
+
+\begin_layout Standard
+In previous reports, I have used the MSE as a measure of similarity between
+ two images.
+ However, that might not necessary be the best measure of image quality.
+ Ultimately, the aim of these compression schemes is to create a compressed
+ image that appears the best to the human eye.
+ Hence, a good metric must be able to identify the statistics of the image
+ that are important to human perception.
+ 
+\end_layout
+
+\begin_layout Standard
+In this report, 3 separate schemes for measuring the quality of images were
+ examined:
+\end_layout
+
+\begin_layout Enumerate
+Mean Square Error
+\begin_inset Formula 
+\begin{eqnarray*}
+MSE(x,y) & = & \frac{1}{N}\sum_{i=1}^{N}(x_{i}-y_{i})^{2}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Peak Signal to Noise Ratio
+\begin_inset Formula 
+\begin{eqnarray*}
+PSNR & = & 20\log_{10}(MAX_{I})-10\log_{10}(MSE)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+SSIM (Structural Similarity Index)
+\end_layout
+
+\begin_layout Standard
+The mean square error scheme has a few advantages.
+ Firstly, it is conceptually simple.
+ Secondly, it has a clear physical meaning, and is a natural way to define
+ the energy of an error signal.
+ Third, it has excellent mathematical properties.
+ 
+\end_layout
+
+\begin_layout Standard
+However, the MSE does not really measure signal fidelity.
+ It performs especially poorly with shifts, rotations, and scalings, for
+ example.
+ It also performs extremely poorly with DC level shifts.
+ 
+\end_layout
+
+\begin_layout Standard
+MSE does not take into account structure.
+ 
+\end_layout
+
+\begin_layout Standard
+Structural Similarity Index was chosen because it has the ability to accurately
+ measure structural information in visual scenes.
+\end_layout
+
+\begin_layout Standard
+Furthermore, the optimization method was changed.
+ In previous reports, schemes were evaluated by forcing them 
+\end_layout
+
+\begin_layout Section
+DWT-based methods
+\end_layout
+
+\begin_layout Standard
+DWT-based schemes were deemed worthy of greater investigation, as they have
+ rather high 
+\end_layout
+
+\begin_layout Standard
+Inverse Legall 5/3 Wavelets
+\end_layout
+
+\begin_layout Standard
+Daubecies 9/7 Wavelets
+\end_layout
+
+\begin_layout Standard
+Haar Wavelets
+\end_layout
+
+\begin_layout Standard
+Blocked DWT Methods.
+ 
+\end_layout
+
+\begin_layout Section
+LBT-based methods
+\end_layout
+
+\begin_layout Standard
+Naive LBT implementation with s=sqrt(2)
+\end_layout
+
+\begin_layout Standard
+LBT implementation with JPEG quantisation tables derived from experiments
+\end_layout
+
+\begin_layout Standard
+Two-level LBT implementation
+\end_layout
+
+\begin_layout Standard
+Investigating the savings from using a custom Huffman table.
+ 
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+The final report should include a brief discussion of how the development
+ of the final design was shared within your group, and what aspects of this
+ process each individual contributed to.
+ 
+\end_layout
+
+\end_body
+\end_document
