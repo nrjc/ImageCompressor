@@ -26,7 +26,7 @@ if (nargin<9)
   H = 256;
   W = 256;
   if (nargin<7)
-    dcbits = 9;
+    dcbits = 8;
     if (nargin<6)
       opthuff = false;
       if (nargin<4)
@@ -45,6 +45,8 @@ end
 
 % Set up standard scan sequence
 scan = diagscan(M);
+% scan = [17,9,2,10,11,3,4,18,19,25,12,5,26,13,20,6,27,33,34,28,14,21,35,41,7,36,49,22,58,29,59,43,42,50,57,60,15,30,37,51,8,61,23,52,38,31,44,16,62,24,32,64,48,63,39,53,56,46,45,40,54,55,47];
+
 
 if (opthuff)
   disp('Generating huffcode and ehuf using custom tables')
@@ -125,13 +127,13 @@ end
 
 fprintf(1, 'Inverse quantising to step size of %i\n', qstep);
 Zi=dctquantise2(Zq,qstep);
-%Zi=quant2(Zq,qstep,qstep);%This is for normal one step quantisation
+% Zi=quant2(Zq,qstep,qstep);%This is for normal one step quantisation
 
 fprintf(1, 'Inverse %i x %i DCT\n', N, N);
 C8=dct_ii(N);
 [xsize,ysize]=size(Zi);
 %Inverting first DCT layer
-Zi(1:8,1:8)=colxfm(colxfm(Zi(1:8,1:8)',C8')',C8');
+% Zi(1:8,1:8)=colxfm(colxfm(Zi(1:8,1:8)',C8')',C8');
 %Second DCT layer
 Zo=colxfm(colxfm(Zi',C8')',C8');
 Z=ILBT(Zo,8,sqrt(2));

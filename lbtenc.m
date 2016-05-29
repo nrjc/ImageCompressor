@@ -29,7 +29,7 @@ global huffhist  % Histogram of usage of Huffman codewords.
 error(nargchk(2, 6, nargin, 'struct'));
 if ((nargout~=1) && (nargout~=3)) error('Must have one or three output arguments'); end
 if (nargin<6)
-  dcbits = 9;
+  dcbits = 8;
   if (nargin<5)
     opthuff = false;
     if (nargin<4)
@@ -52,19 +52,20 @@ LBTim = LBT(X,8,sqrt(2));
 fprintf(1, 'Forward %i x %i DCT\n', N, N);
 C8=dct_ii(N);
 Y=colxfm(colxfm(LBTim,C8)',C8)'; 
-[xsize,ysize]=size(Y);
+% [xsize,ysize]=size(Y);
 %Second DCT layer
-Y(1:8,1:8)=colxfm(colxfm(Y(1:8,1:8),C8)',C8)';
+% Y(1:8,1:8)=colxfm(colxfm(Y(1:8,1:8),C8)',C8)';
 
 %Apply LBT
 
 % Quantise to integers.
 fprintf(1, 'Quantising to step size of %i\n', qstep); 
 Yq=dctquantise(Y,qstep);
-%Yq=quant1(Y,qstep,qstep); %This does normal quantisation, for comparison
+% Yq=quant1(Y,qstep,qstep); %This does normal quantisation, for comparison
 %sake
 
 % Generate zig-zag scan of AC coefs.
+% scan = [17,9,2,10,11,3,4,18,19,25,12,5,26,13,20,6,27,33,34,28,14,21,35,41,7,36,49,22,58,29,59,43,42,50,57,60,15,30,37,51,8,61,23,52,38,31,44,16,62,24,32,64,48,63,39,53,56,46,45,40,54,55,47];
 scan = diagscan(M);
 
 % On the first pass use default huffman tables.
