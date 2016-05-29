@@ -1,4 +1,4 @@
-function errorout = dwtnumbit(X, qstep, N, M, opthuff, dcbits)
+function errorout= dwtnumbit2(X, qstep, N, M, opthuff, dcbits)
     
 % JPEGENC Encode an image to a (simplified) JPEG bit stream
 %
@@ -19,18 +19,17 @@ function errorout = dwtnumbit(X, qstep, N, M, opthuff, dcbits)
 %  vlc is the variable length output code, where vlc(:,1) are the codes, and
 %  vlc(:,2) the number of corresponding valid bits, so that sum(vlc(:,2))
 %  gives the total number of bits in the image
-%  bits and huffval are optional o(sum(vlc(:,2))-50000utputs which return the Huffman encoding
+%  bits and huffval are optional outputs which return the Huffman encoding
 %  used in compression
 
 % This is global to avoid too much copying when updated by huffenc
-global huffhist;
-
+global huffhist  % Histogram of usage of Huffman codewords.
 
 % Presume some default values if they have not been provided
 error(nargchk(2, 6, nargin, 'struct'));
 if ((nargout~=1) && (nargout~=3)) error('Must have one or three output arguments'); end
 if (nargin<6)
-  dcbits = 9;
+  dcbits = 10;
   if (nargin<5)
     opthuff = false;
     if (nargin<4)
@@ -48,14 +47,17 @@ end
  if ((opthuff==true) && (nargout==1)) error('Must output bits and huffval if optimising huffman tables'); end
  
 % DCT on input image X.
-fprintf(1, 'Forward %i x %i DCT\n', N, N);
-dwtstepm=generatedwtstep(4);
+fprintf(1, 'Forward %i x %i DWT\n', N, N);
+dwtstepm=generatedwtstep(1);
+[xsize,ysize]=size(X);
+DWTsquares=zeros(xsize,ysize);
+for j=1:(ysize/8)
+   for i=1:(xsize/8)
+       DWTsquares(((i-1)*8+1):i*8,((j-1)*8+1):j*8)=quantdwt(X(((i-1)*8+1):i*8,((j-1)*8+1):j*8),qstep*dwtstepm,1);
+   end
+end
 
-[Y,dwtentk]=quantdwt(X,qstep*dwtstepm,1);% Quantise to integers.
-fprintf(1, 'Quantising to step size of %i', qstep); 
-
-%Regroup
-Yq = dwtgroup(Y,3);
+Yq=DWTsquares;
 
 
 % Generate zig-zag scan of AC coefs.
@@ -99,7 +101,7 @@ if (opthuff==false)
     huffval = dhuffval;
   end
   fprintf(1,'Bits for coded image = %d\n', sum(vlc(:,2)));
-  errorout=(sum(vlc(:,2))-40960)^2;
+  errorout = (sum(vlc(:,2))-40960)^2;
   return;
 end
 
@@ -129,6 +131,10 @@ for r=0:M:(sy(1)-M),
 end
 fprintf(1,'Bits for coded image = %d\n', sum(vlc(:,2)))
 fprintf(1,'Bits for huffman table = %d\n', (16+max(size(dhuffval)))*8)
-errorout=(sum(vlc(:,2))-40960)^2;
 
+if (nargout>1)
+  bits = dbits;
+  huffval = dhuffval';
+end
+errorout = (sum(vlc(:,2))-40960)^2;
 return

@@ -131,7 +131,7 @@ fprintf(1, 'Inverse %i x %i DCT\n', N, N);
 C8=dct_ii(N);
 [xsize,ysize]=size(Zi);
 %Inverting first DCT layer
-%Zi(1:xsize/8,1:ysize/8)=colxfm(colxfm(Zi(1:xsize/8,1:ysize/8)',C8')',C8');
+Zi(1:8,1:8)=colxfm(colxfm(Zi(1:8,1:8)',C8')',C8');
 %Second DCT layer
 Zo=colxfm(colxfm(Zi',C8')',C8');
 Z=ILBT(Zo,8,sqrt(2));

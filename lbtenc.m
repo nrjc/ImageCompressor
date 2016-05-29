@@ -54,7 +54,7 @@ C8=dct_ii(N);
 Y=colxfm(colxfm(LBTim,C8)',C8)'; 
 [xsize,ysize]=size(Y);
 %Second DCT layer
-%Y(1:xsize/8,1:ysize/8)=colxfm(colxfm(Y(1:xsize/8,1:ysize/8),C8)',C8)';
+Y(1:8,1:8)=colxfm(colxfm(Y(1:8,1:8),C8)',C8)';
 
 %Apply LBT
 

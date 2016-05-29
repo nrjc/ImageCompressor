@@ -22,10 +22,12 @@ i=1;
 
 %INVESTIGATE THE DWT
 % Golden Search to find the ideal rise size.
-       fun=@(x)dwtnumbit(imagein,x);
-       [step f]=fminbnd(fun,1,30);
-    [vlc bits huffval] = dwtenc(imagein,step);
-    Z=dwtdec(vlc,1);
+%        fun=@(x)dwtnumbit2(imagein,x);
+%        [step f]=fminbnd(fun,100,200);
+step=40;
+
+    [vlc bits huffval] = dwtenc2(imagein,step);
+    Z=dwtdec2(vlc,1);
     draw(Z);
     
 

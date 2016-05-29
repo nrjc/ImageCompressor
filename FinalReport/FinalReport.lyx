@@ -396,10 +396,6 @@ At high quantisations step sizes, the high-pass images will all be supressed.
  
 \end_layout
 
-\begin_layout Standard
-[POSSIBLY COME UP WITH BETTER SCHEME?]
-\end_layout
-
 \begin_layout Section
 Measures of Visual Appearance
 \end_layout
@@ -493,6 +489,24 @@ DWT-based schemes were deemed worthy of greater investigation, as they have
 \end_layout
 
 \begin_layout Standard
+From Report 2, it was observed that equal MSE schemes perform better than
+ constant quantisation schemes.
+ Furthermore, it is found that the deeper the layer, the higher the compression
+ ratio.
+ Hence, for the sake of this report, the deepest possible wavelet tree is
+ used.
+ 
+\end_layout
+
+\begin_layout Standard
+One large question 
+\end_layout
+
+\begin_layout Standard
+Legall 5/3 Wavelets
+\end_layout
+
+\begin_layout Standard
 Inverse Legall 5/3 Wavelets
 \end_layout
 
@@ -523,6 +537,22 @@ LBT implementation with JPEG quantisation tables derived from experiments
 
 \begin_layout Standard
 Two-level LBT implementation
+\end_layout
+
+\begin_layout Section
+Coding improvements
+\end_layout
+
+\begin_layout Standard
+[POSSIBLY COME UP WITH BETTER SCHEME?]
+\end_layout
+
+\begin_layout Standard
+[TALK ABOUT DCMT CODING]
+\end_layout
+
+\begin_layout Standard
+[DPCM for DC Coefficients]
 \end_layout
 
 \begin_layout Standard
