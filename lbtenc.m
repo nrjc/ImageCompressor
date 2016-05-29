@@ -80,7 +80,7 @@ sy=size(Yq);
 t = 1:M;
 huffhist = zeros(16*16,1);
 vlc = [];
-dccur=0;
+dcprev=0;
 for r=0:M:(sy(1)-M),
   vlc1 = [];
   for c=0:M:(sy(2)-M),
@@ -88,10 +88,13 @@ for r=0:M:(sy(1)-M),
     % Possibly regroup 
     if (M > N) yq = regroup(yq, N); end
     % Encode DC coefficient first
+    dccur = yq(1);
+    yq(1)=yq(1)-dcprev;
+    dcprev=dccur;
     if yq(1)~=0
         dcbits = ceil(log(abs(yq(1)))/log(2))+2;
     else
-        dcbits=0;
+        dcbits=1;
     end
     yq(1) = yq(1) + 2^(dcbits-1);
     if ((yq(1)<1) | (yq(1)>(2^dcbits-1)))

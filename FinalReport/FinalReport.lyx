@@ -1648,7 +1648,7 @@ JPEG+LBT+IJG Quantisation
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -1938,7 +1938,191 @@ Hence, a decision was made to abandon scanning methods as an area of exploration
 \begin_layout Standard
 Another possible area of improvement in the default JPEG encoding is in
  the encoding of the DC components.
- The DC component in each block is large and varies across the blocks, but
+ Firstly, in the JPEG encoding scheme provided, the number of DC bits is
+ fixed to a constant value for all sub-images.
+ However, this is a waste.
+ Smaller coefficients of DC do not require as many bits to encode as large
+ coefficients of DC.
+ Utilizing the formula:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+bits=\log_{2}|x|+2
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where x is the DC coefficient, we may dynamically allocate DC bit sizes
+ to each of the DC values, and decrease the total number of bits used to
+ encode the image.
+ When this scheme was implemented on the Bridge Image, significant improvements
+ were made in both SSIM and MSE.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SSIM and MSE for dynamic bitsize allocation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSIM
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Base Scheme (JPEG + LBT + IJG)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.1088 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ 0.6551
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dynamic Sizing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12.8089
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6716
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dynamic Sizing + Differential Modulation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12.7022
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6769
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The DC component in each block is large and varies across the blocks, but
  is often close to that of the adjacent blocks.
  Hence, it is possible to use a Differential Modulation scheme to instead
  encode the difference between adjacent DC values instead of the absolute
@@ -1946,10 +2130,6 @@ Another possible area of improvement in the default JPEG encoding is in
  Theoretically, this should be able to decrease the number of bits used
  to encode an image that has the same quantisation step size, as we can
  use less DC bits.
-\end_layout
-
-\begin_layout Standard
-Investigating the savings from using a custom Huffman table.
  
 \end_layout
 

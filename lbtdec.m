@@ -75,7 +75,7 @@ run16 = ehuf(15*16+1,:);
 i = 1;
 Zq = zeros(H, W);
 t=1:M;
-
+prev=0;
 disp('Decoding rows')
 for r=0:M:(H-M),
   for c=0:M:(W-M),
@@ -83,7 +83,9 @@ for r=0:M:(H-M),
 
 % Decode DC coef - assume no of bits is correctly given in vlc table.
     cf = 1;
-    yq(cf) = vlc(i,1) - 2^(vlc(i,2)-1);
+    cur = vlc(i,1) - 2^(vlc(i,2)-1);
+    yq(cf) = cur + prev;
+    prev = yq(cf);
     i = i + 1;
 
 % Loop for each non-zero AC coef.
