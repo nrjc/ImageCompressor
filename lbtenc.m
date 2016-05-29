@@ -80,6 +80,7 @@ sy=size(Yq);
 t = 1:M;
 huffhist = zeros(16*16,1);
 vlc = [];
+dccur=0;
 for r=0:M:(sy(1)-M),
   vlc1 = [];
   for c=0:M:(sy(2)-M),

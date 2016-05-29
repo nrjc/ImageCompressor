@@ -1783,7 +1783,8 @@ On closer examination, the diagonal scanning method is also suboptimal.
  Hence, the ordering of the scanning should start at the largest value of
  the IJG standard table and proceed to the smallest.
  A modification was made to the scanning strategy, and the images were once
- agian compressed to the same value of 4095
+ agian compressed to the same value of 40960 bits.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1797,7 +1798,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SSIM and MSE for constant and IJG quantisation
+SSIM and MSE for diagonal vs optimized scanning(LBT with IJG quantisation)
 \end_layout
 
 \end_inset
@@ -1847,7 +1848,7 @@ SSIM
 \begin_inset Text
 
 \begin_layout Plain Layout
-JPEG + LBT
+Diagonal
 \end_layout
 
 \end_inset
@@ -1856,7 +1857,7 @@ JPEG + LBT
 \begin_inset Text
 
 \begin_layout Plain Layout
-12.1444 
+13.1088 
 \end_layout
 
 \end_inset
@@ -1865,7 +1866,7 @@ JPEG + LBT
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.682 
+ 0.6551
 \end_layout
 
 \end_inset
@@ -1876,7 +1877,7 @@ JPEG + LBT
 \begin_inset Text
 
 \begin_layout Plain Layout
-JPEG + LBT + IJG
+Optimized
 \end_layout
 
 \end_inset
@@ -1885,7 +1886,7 @@ JPEG + LBT + IJG
 \begin_inset Text
 
 \begin_layout Plain Layout
-13.1088 
+13.3240
 \end_layout
 
 \end_inset
@@ -1894,7 +1895,7 @@ JPEG + LBT + IJG
 \begin_inset Text
 
 \begin_layout Plain Layout
- 0.6551
+0.6425
 \end_layout
 
 \end_inset
@@ -1913,15 +1914,37 @@ JPEG + LBT + IJG
 \end_layout
 
 \begin_layout Standard
-[POSSIBLY COME UP WITH BETTER SCHEME?]
+It is seen that the 
+\begin_inset Quotes eld
+\end_inset
+
+optimized
+\begin_inset Quotes erd
+\end_inset
+
+ scanning method based on the IJG Standard Table does not improve the image
+ compression performance.
+ [INSERT REASON HERE?]
 \end_layout
 
 \begin_layout Standard
-[TALK ABOUT DCMT CODING]
+Hence, a decision was made to abandon scanning methods as an area of exploration
+, as additional gains in this area are not likely to lead to significant
+ improvements in compression.
+ 
 \end_layout
 
 \begin_layout Standard
-[DPCM for DC Coefficients]
+Another possible area of improvement in the default JPEG encoding is in
+ the encoding of the DC components.
+ The DC component in each block is large and varies across the blocks, but
+ is often close to that of the adjacent blocks.
+ Hence, it is possible to use a Differential Modulation scheme to instead
+ encode the difference between adjacent DC values instead of the absolute
+ value.
+ Theoretically, this should be able to decrease the number of bits used
+ to encode an image that has the same quantisation step size, as we can
+ use less DC bits.
 \end_layout
 
 \begin_layout Standard
