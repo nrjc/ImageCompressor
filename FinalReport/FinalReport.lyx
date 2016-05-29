@@ -25,9 +25,10 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -51,6 +52,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -536,7 +541,7 @@ It was theorised that other wavelets exist that give better images at high
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -1300,6 +1305,7 @@ It was observed that,when compressing down to 40,960 bits, the resulting
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Float figure
 placement H
 wide false
@@ -1307,6 +1313,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -1524,7 +1531,7 @@ Two-level LBT implementation...
 \end_layout
 
 \begin_layout Section
-Coding improvements
+Quantisation Improvements
 \end_layout
 
 \begin_layout Standard
@@ -1733,7 +1740,7 @@ JPEG + LBT
 \begin_inset Text
 
 \begin_layout Plain Layout
-JPEG + LBT + IJG
+JPEG + LBT + IJG quantisation
 \end_layout
 
 \end_inset
@@ -1775,6 +1782,10 @@ Although the IJG Standard Quantisation leads to a worse MSE and SSIM as
  the IJG quantisation scheme surpresses the LBT artifacts, and looks more
  pleasing to the human eye.
  Thus, it was chosen as a superior quantisation scheme.
+\end_layout
+
+\begin_layout Section
+Coding Improvements
 \end_layout
 
 \begin_layout Standard
@@ -1967,6 +1978,21 @@ where x is the DC coefficient, we may dynamically allocate DC bit sizes
 \end_layout
 
 \begin_layout Standard
+Furthermore, the DC component in each block is large and varies across the
+ blocks, but is often close to that of the adjacent blocks.
+ Hence, it is possible to use a Differential Modulation scheme to instead
+ encode the difference between adjacent DC values instead of the absolute
+ value.
+ Theoretically, this should be able to decrease the number of bits used
+ to encode an image that has the same quantisation step size, as we can
+ use less DC bits.
+ The results of an experiment on the bridge image are shown below.
+ Note that adding differential modulation to the DC coefficients further
+ improves both the MSE and the SSIM.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float table
 placement h
 wide false
@@ -2121,18 +2147,6 @@ Dynamic Sizing + Differential Modulation
 
 \end_layout
 
-\begin_layout Standard
-The DC component in each block is large and varies across the blocks, but
- is often close to that of the adjacent blocks.
- Hence, it is possible to use a Differential Modulation scheme to instead
- encode the difference between adjacent DC values instead of the absolute
- value.
- Theoretically, this should be able to decrease the number of bits used
- to encode an image that has the same quantisation step size, as we can
- use less DC bits.
- 
-\end_layout
-
 \begin_layout Section
 Conclusion
 \end_layout
@@ -2154,7 +2168,7 @@ Appendix
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
