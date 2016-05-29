@@ -88,6 +88,11 @@ for r=0:M:(sy(1)-M),
     % Possibly regroup 
     if (M > N) yq = regroup(yq, N); end
     % Encode DC coefficient first
+    if yq(1)~=0
+        dcbits = ceil(log(abs(yq(1)))/log(2))+2;
+    else
+        dcbits=0;
+    end
     yq(1) = yq(1) + 2^(dcbits-1);
     if ((yq(1)<1) | (yq(1)>(2^dcbits-1)))
       error('DC coefficients too large for desired number of bits');

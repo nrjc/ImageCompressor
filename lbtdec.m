@@ -83,8 +83,7 @@ for r=0:M:(H-M),
 
 % Decode DC coef - assume no of bits is correctly given in vlc table.
     cf = 1;
-    if (vlc(i,2)~=dcbits) error('The bits for the DC coefficient does not agree with vlc table'); end
-    yq(cf) = vlc(i,1) - 2^(dcbits-1);
+    yq(cf) = vlc(i,1) - 2^(vlc(i,2)-1);
     i = i + 1;
 
 % Loop for each non-zero AC coef.
