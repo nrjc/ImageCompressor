@@ -223,6 +223,80 @@ The Compression Ratio was measured at a block size of N=16.
 \end_layout
 
 \begin_layout Section
+Surpressing Coefficients
+\end_layout
+
+\begin_layout Standard
+In order to investigate the effect of surpressing coefficients, an experiment
+ was conducted to measure the energy of any of the individual sub-images,
+ and zero them if they fell below a certain percentage of the total image
+ energy.
+ The MSE was then optimized to be the same as a direct quantisation at step
+ 17, and the compression ratio was measured.
+ A figure containing the results can be seen below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Compression Ratio vs Treshhold energy level
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename quantCoeff.eps
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given that Compression Ratio falls as the treshold energy increases, the
+ surpression of the coefficients was deemed to be unworthy of further investigat
+ion.
+ 
+\end_layout
+
+\begin_layout Standard
+However, it might be the case that the calculation of the compression ratio
+ underestimates the surpression of coefficients.
+ The first order entropy calculations do not take into account savings from
+ runs of zeros in the run-length encoded scheme.
+ When the entire sub-image is zeroed, the length of the runs of zeros might
+ increase as compared to the base case, adding extra bit savings.
+ 
+\end_layout
+
+\begin_layout Standard
+However, at high compressions, the variable quantisation step size combined
+ with the zero-rise width of the quantiser would have caused the coefficients
+ of the high-pass subimages to be surpressed anyway.
+ Hence, the savings introduced are unlikely to be large.
+ 
+\end_layout
+
+\begin_layout Section
 Huffman coding
 \end_layout
 
@@ -252,7 +326,9 @@ In this report, the Huffman code is used for compression.
 
 \begin_layout Standard
 In the JPEG format implemented in the MATLAB code provided, the image is
- scanned in a zigzag fashion as shown:
+ scanned in a zigzag fashion, with the top-left coefficient of a block being
+ encoded as a DC coefficient.
+ A digram is shown:
 \end_layout
 
 \begin_layout Standard
@@ -520,7 +596,7 @@ In Report 2, a DWT pyramid for the Legall 5/3 Wavelets was examined.
  were introduced (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -531,8 +607,8 @@ reference "Waveletcomp"
 It was theorised that other wavelets exist that give better images at high
  compressions.
  Hence, a series of experiments were conducted to determine how the choice
- of wavelets can affect compression when compressing down tpo 40,960 bits
- per image.
+ of wavelets can affect compression when compressing down to a size of 40,960
+ bits per image.
  
 \end_layout
 
@@ -655,7 +731,7 @@ Legall 5-3
 \begin_layout Plain Layout
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -708,7 +784,7 @@ Inverse Legall 5-3
 \begin_layout Plain Layout
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -761,7 +837,7 @@ CDF 9-7
 \begin_layout Plain Layout
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -814,7 +890,7 @@ Haar
 \begin_layout Plain Layout
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -867,7 +943,7 @@ DB 8
 \begin_layout Plain Layout
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -920,7 +996,7 @@ JPEG (reference)
 \begin_layout Plain Layout
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "Waveletcomp"
+reference "waveletcomp"
 
 \end_inset
 
@@ -1310,9 +1386,10 @@ It was observed that,when compressing down to 40,960 bits, the resulting
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -1526,7 +1603,13 @@ When the POT transformed-image is decomposed using the DCT, it is possible
 \end_layout
 
 \begin_layout Standard
-Two-level LBT implementation...
+In the default POT, the value of the overlap between blocks is defined to
+ have a full overlap of 4.
+ 
+\end_layout
+
+\begin_layout Standard
+[Changing the values of overlap]
 \end_layout
 
 \begin_layout Section
@@ -1572,89 +1655,11 @@ l experiments that examine the subjective quality of images as percieved
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-JPEG +LBT
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename LBT/LBTdirect.png
-	width 5cm
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-JPEG+LBT+IJG Quantisation
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename LBT/LBTquant.png
-	width 5cm
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float table
 placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -1739,7 +1744,7 @@ JPEG + LBT
 \begin_inset Text
 
 \begin_layout Plain Layout
-JPEG + LBT + IJG
+JPEG + LBT + IJG quantisation
 \end_layout
 
 \end_inset
@@ -1778,13 +1783,31 @@ JPEG + LBT + IJG
 \begin_layout Standard
 Although the IJG Standard Quantisation leads to a worse MSE and SSIM as
  compared to the baseline scheme, from a subjective POV, it is noted that
- the IJG quantisation scheme surpresses the LBT artifacts, and looks more
- pleasing to the human eye.
+ the IJG quantisation scheme surpresses the LBT artifacts (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "LBT default"
+
+\end_inset
+
+), and looks more pleasing to the human eye as compared to the default LBT
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "LBT-IJG"
+
+\end_inset
+
+).
  Thus, it was chosen as a superior quantisation scheme.
 \end_layout
 
 \begin_layout Section
 Coding Improvements
+\end_layout
+
+\begin_layout Subsection
+Scanning Strategy
 \end_layout
 
 \begin_layout Standard
@@ -1933,9 +1956,25 @@ optimized
 \begin_inset Quotes erd
 \end_inset
 
- scanning method based on the IJG Standard Table does not improve the image
- compression performance.
- [INSERT REASON HERE?]
+ scanning method based on the IJG Standard Table (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "LBT-IHGquantscan"
+
+\end_inset
+
+) does not improve the image compression performance as compared to the
+ default diagonal scannign scheme (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "LBT-IJG"
+
+\end_inset
+
+).
+ This is likely because the IJG quantisation scheme quantisation scheme
+ has no direct relationship to the amount of energy in the quantised image.
+ [INSERT REASONING HERE??]
 \end_layout
 
 \begin_layout Standard
@@ -1943,6 +1982,10 @@ Hence, a decision was made to abandon scanning methods as an area of exploration
 , as additional gains in this area are not likely to lead to significant
  improvements in compression.
  
+\end_layout
+
+\begin_layout Subsection
+DC coefficients
 \end_layout
 
 \begin_layout Standard
@@ -1987,7 +2030,14 @@ Furthermore, the DC component in each block is large and varies across the
  use less DC bits.
  The results of an experiment on the bridge image are shown below.
  Note that adding differential modulation to the DC coefficients further
- improves both the MSE and the SSIM.
+ improves both the MSE and the SSIM (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "LBTquantdynamdiff"
+
+\end_inset
+
+).
  
 \end_layout
 
@@ -2146,6 +2196,204 @@ Dynamic Sizing + Differential Modulation
 
 \end_layout
 
+\begin_layout Subsection
+Optimised huffman tables
+\end_layout
+
+\begin_layout Standard
+Originally, it was theorised that, since all natural images share the same
+ properties and the proposed image transform is fundamentally similar to
+ the default JPEG encoding, it might be possible to save 1424 bits by using
+ the default JPEG huffman tables.
+ 
+\end_layout
+
+\begin_layout Standard
+An experiment was conducted to test this hypothesis.
+ The best possible scheme was used, and the bridge image compressed down
+ to 40,960 bits with and without the custom Huffman table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SSIM and MSE with and without custom huffman table
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scheme
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSIM
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Without Custom Huffman
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12.7022
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6769
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+With Custom Huffman
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12.6021
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.7304
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It was found that using a custom Huffman table improved compression performance
+ significantly.
+ It is hypothesized that the default JPEG table does not apply well to the
+ new scheme, as the Photo Overlap Transform modifies the pre-DCT image such
+ that the natural statistics are significantly different from the original
+ natural image.
+ Hence, a custom Huffman table needs to be used, as the default Huffman
+ table is no longer as relevant.
+ 
+\end_layout
+
+\begin_layout Section
+Final Scheme
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Final Competition Encoding and Decoding Flow
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename Final Workflow.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The above figure describes the final encoding and decoding sequence used
+ in
+\end_layout
+
 \begin_layout Section
 Conclusion
 \end_layout
@@ -2155,6 +2403,13 @@ The final report should include a brief discussion of how the development
  of the final design was shared within your group, and what aspects of this
  process each individual contributed to.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -2403,7 +2658,7 @@ DB8 Wavelets
 
 \begin_inset CommandInset label
 LatexCommand label
-name "Waveletcomp"
+name "waveletcomp"
 
 \end_inset
 
@@ -2417,9 +2672,10 @@ name "Waveletcomp"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -2531,6 +2787,373 @@ Legall 5/3 Wavelet with Tiling
 \begin_inset CommandInset label
 LatexCommand label
 name "waveletlight"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT investigation images
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT direct implementation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LBT/LBTdirect.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LBT default"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT + IJG quantisation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LBT/LBTquant.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LBT-IJG"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT + IJG quantisation + IJG scanning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LBT/LBTnewscan.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LBT-IHGquantscan"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT + IJG quantisation + dynamic bit allocation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LBT/LBTDCbitsave.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LBTquantdynam"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT + IJG quantisation + dynamic bit allocation + Differential coding
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LBT/LBTDCbitsave-diffcode.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LBTquantdynamdiff"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+LBT + Custom Huffman Table
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LBT/LBTFINAL.png
+	width 5cm
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "LBTFINAL"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Competition Images
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Image X1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Image X2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Comp Image (Bridge) (Dyn DCbits): N=8 M=8 opthuff=true dcbits=11 s=1.4142 O=4 bitsize=40769 MSE=12.311 SSIM=0.7007.png
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Image X3
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename Comp Image (Flamingo) (Dyn DCbits): N=8 M=8 opthuff=true dcbits=11 s=1.4142 O=2 bitsize=40856 MSE=12.322 SSIM=0.72323.png
+	width 5cm
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
