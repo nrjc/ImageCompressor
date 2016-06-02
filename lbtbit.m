@@ -44,7 +44,6 @@ if (nargin<6)
     end
   end
 end
- if ((opthuff==true) && (nargout==1)) error('Must output bits and huffval if optimising huffman tables'); end
 %LBT on image
 LBTim = LBT(X,8,sqrt(2));
 
@@ -113,7 +112,7 @@ if (opthuff==false)
     huffval = dhuffval;
   end
   fprintf(1,'Bits for coded image = %d\n', sum(vlc(:,2)));
-    bitout=(sum(vlc(:,2))-40960)^2;
+    bitout=(sum(vlc(:,2))-40960+1424)^2;
   return;
 end
 
@@ -121,6 +120,7 @@ end
 disp('Generating huffcode and ehuf using custom tables')
 [dbits, dhuffval] = huffdes(huffhist);
 [huffcode, ehuf] = huffgen(dbits, dhuffval);
+dcprev=0;
 
 % Generate run/ampl values and code them into vlc(:,1:2).
 % Also generate a histogram of code symbols.
@@ -134,8 +134,15 @@ for r=0:M:(sy(1)-M),
     yq = Yq(r+t,c+t);
     % Possibly regroup 
     if (M > N) yq = regroup(yq, N); end
+    dccur = yq(1);
+    yq(1)=yq(1)-dcprev;
+    dcprev=dccur;
     % Encode DC coefficient first
-    dcbits = ciel(log(yq(1))/log(2))*2+1;
+    if yq(1)~=0
+        dcbits = ceil(log(abs(yq(1)))/log(2))+2;
+    else
+        dcbits=1;
+    end
     yq(1) = yq(1) + 2^(dcbits-1);
     dccoef = [yq(1)  dcbits]; 
     % Encode the other AC coefficients in scan order

@@ -24,7 +24,7 @@ i=1;
 %Golden Search to find the ideal rise size.
     dwtstepm=generatedwtstep(4);
     fun2=@(x)calculatedeltarmserror4(imagein,x*dwtstepm,17,1);
-    [idealstepdwt(i) f(i)]=fminbnd(fun2,1,100000);
+    [idealstepdwt(i) f(i)]=fminbnd(fun2,1,1000);
     [quantisedimage2,dwtentk]=quantdwt(imagein,idealstepdwt(i)*dwtstepm,1);
     imageout = nlevidwt(quantisedimage2,5);
     compressionratio(i)=ein/sum(dwtentk(:));

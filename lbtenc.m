@@ -124,6 +124,8 @@ disp('Generating huffcode and ehuf using custom tables')
 [dbits, dhuffval] = huffdes(huffhist);
 [huffcode, ehuf] = huffgen(dbits, dhuffval);
 
+dcprev=0;
+
 % Generate run/ampl values and code them into vlc(:,1:2).
 % Also generate a histogram of code symbols.
 disp('Coding rows (second pass)')
@@ -137,6 +139,14 @@ for r=0:M:(sy(1)-M),
     % Possibly regroup 
     if (M > N) yq = regroup(yq, N); end
     % Encode DC coefficient first
+       dccur = yq(1);
+    yq(1)=yq(1)-dcprev;
+    dcprev=dccur;
+    if yq(1)~=0
+        dcbits = ceil(log(abs(yq(1)))/log(2))+2;
+    else
+        dcbits=1;
+    end
     yq(1) = yq(1) + 2^(dcbits-1);
     dccoef = [yq(1)  dcbits]; 
     % Encode the other AC coefficients in scan order

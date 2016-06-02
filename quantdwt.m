@@ -3,6 +3,11 @@ function [quantisedimage,dwtentk]=quantdwt(imagein,dwtstep,ratio)
 [M N]=size(dwtstep);
 imagein = nlevdwt(imagein,N);
 for i=1:(N-1)
+    if (i==1)
+        imagein(1:m/2,(n/2+1):n)=zeros(m/2,n/2);
+        imagein((m/2+1):m,1:n/2)=zeros(m/2,n/2);
+        imagein((m/2+1):m,(n/2+1):n)=zeros(m/2,n/2);
+    end
     quantisedimage(1:m/2,(n/2+1):n)=quantise(imagein(1:m/2,(n/2+1):n),dwtstep(1,i),ratio*dwtstep(1,i));
     dwtentk(1,i)=bpp(quantisedimage(1:m/2,(n/2+1):n))*m*n/4;
     quantisedimage((m/2+1):m,1:n/2)=quantise(imagein((m/2+1):m,1:n/2),dwtstep(2,i),ratio*dwtstep(2,i));
